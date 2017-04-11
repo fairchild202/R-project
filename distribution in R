@@ -1,0 +1,18 @@
+rnorm(n, mean = 0, sd = 1) #normal
+rexp(n, rate = 1) #expontial
+rgamma(n, shaoe, scale = 1) #gamma distribution
+rpois(n, lambda) #Poisson distribution
+rweibull(n, shape, scale = 1) #Weibull distribution
+rcauchy(n, location = 0, scale = 1) #Cauchy distribution
+rbeta(n, shape1, shape2) #beta distribution
+rt(n, df) #t distribution
+rf(n, df1, df2) #F distribution
+rchisq(n, df) #chi-square distribution
+rbinom(n, size, prob) #binormal distribution
+rgeom(n, prob) #geometry distribution
+rhyper(nn, m, n, k) #hyper distribution
+rlogis(n, location =  scale = 1) #logistic distribution
+rlnorm(n, meanlog = 0, sdlog = 1) #lognormal distribution
+rnbinom(n, size, prob) # negative binomal distribution
+runif(n, min = 0, max = 1) # uniform distribution
+rwilcox(nn, m, n), rsignrank(nn, n) #Wilcoxon distribution
