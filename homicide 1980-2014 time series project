@@ -1,0 +1,60 @@
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(readr)
+library(dplyr)
+library(plyr)
+library(ggplot2)
+
+load("homicides.Rda")
+
+homicides$State <- as.factor(homicides$State)
+homicides$Year <- as.factor(homicides$Year)
+stst <- as.list(levels(homicides$State))
+```
+
+```{r, echo=FALSE, fig.height=3.9, message=FALSE, warning=FALSE}
+
+for(i in 1:length(stst)){
+state_i <- subset(homicides, State==stst[[i]])
+
+#homicides distribution per year
+
+agg_state_i <- state_i %>% group_by(Year, Month) %>% dplyr::summarise(count=n()) %>% dplyr::mutate(fre=count/sum(count))
+expanded_res <- expand.grid(Year=levels(as.factor(homicides$Year)),Month=levels(as.factor(homicides$Month)))
+agg_state_i <- left_join(expanded_res, agg_state_i, by=c("Year", "Month"))
+agg_state_i$Monthnum <- as.integer(revalue(agg_state_i$Month, c("January"=1, "February"=2, "March"=3, "April"=4, "May"=5, "June"=6, "July"=7,"August"=8,"September"=9,"October"=10,"November"=11,"December"=12)))
+
+agg_state_i$count <- ifelse(is.na(agg_state_i$count),0,agg_state_i$count)
+agg_state_i$fre <- ifelse(is.na(agg_state_i$fre),0,agg_state_i$fre)
+
+agg_state_i$Monthnum <- as.integer(agg_state_i$Monthnum)
+
+plottitle <- paste(stst[[i]],"homicides dist.")
+
+dist_plot <- ggplot(aes(x=Monthnum, y=fre, col=Year), data = agg_state_i) + 
+              geom_line() + 
+              ggtitle(plottitle) + 
+              ylim(c(0,1)) + 
+              scale_x_continuous(breaks = seq(1,12,1)) +
+              theme(legend.position="none", 
+                    axis.title.y=element_blank())
+
+#total homicides per year
+
+aggyear_state_i <- state_i %>% group_by(Year) %>% dplyr::summarise(count=n())
+expanded_res <- expand.grid(Year=levels(as.factor(homicides$Year)))
+aggyear_state_i <- left_join(expanded_res, aggyear_state_i, by=c("Year"))
+
+aggyear_state_i$count <- ifelse(is.na(aggyear_state_i$count),0,aggyear_state_i$count)
+
+yearplottitle <- paste(stst[[i]], "homicides per year")
+
+total_plot <- ggplot(aes(x=Year, y=count), data = aggyear_state_i) + 
+               geom_bar(stat = "identity") + 
+               ggtitle(yearplottitle) + 
+               scale_x_discrete(breaks = seq(1980,2014,6)) +
+               theme(axis.title.y=element_blank())
+         
+print(dist_plot)
+print(total_plot)
+}
+```
