@@ -1,1 +1,10 @@
 library(RCurl)
+d = debugGatherer()
+temp <- getURL('http://www.dataguru.cn/', debugfunction = d$update, verbose =TRUE ) #verbose TRUE means store information 
+
+cat(d$value()[3]) # servers send header
+cat(d$value()[1]) # servers address and ports
+cat(d$value()[2]) # servers recieve header
+
+tempurl.exists('http://www.google.com') # check whether the url exist
+
