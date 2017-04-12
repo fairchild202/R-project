@@ -16,3 +16,8 @@ rlnorm(n, meanlog = 0, sdlog = 1) #lognormal distribution
 rnbinom(n, size, prob) # negative binomal distribution
 runif(n, min = 0, max = 1) # uniform distribution
 rwilcox(nn, m, n), rsignrank(nn, n) #Wilcoxon distribution
+
+median()
+quantile()
+fivenum() #median, Q1, Q3, min and max
+shapiro.test()
