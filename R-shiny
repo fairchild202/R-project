@@ -7,3 +7,4 @@ shinyUI(pageWithSidebar(
 	sidebarPanel(),
 	mainPanel()
 	)) # one type of UI arrangement in shiny
+shinyUI(fluidPage())
